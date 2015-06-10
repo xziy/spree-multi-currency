@@ -3,7 +3,7 @@ Spree::Money.class_eval do
   def initialize(amount, options = {})
       @money = ::Monetize.parse([amount, Spree::Currency.current.char_code].join)
       @options = {}
-      @options[:with_currency] = Spree::Config[:display_currency]
+      @options[:with_currency] = true
       @options[:symbol_position] = Spree::Config[:currency_symbol_position].to_sym
       @options[:no_cents] = Spree::Config[:hide_cents]
       @options[:decimal_mark] = Spree::Config[:currency_decimal_mark]
