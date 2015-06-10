@@ -1,5 +1,5 @@
 # encoding: utf-8
-Deface::Override.new(virtual_path: "spree/admin/shared/_configuration_menu",
+Deface::Override.new(virtual_path: "spree/admin/shared/sub_menu/_configuration",
                      name: "currencies_admin_configurations_menu",
                      insert_bottom: "ul[data-hook='admin_configurations_sidebar_menu']",
                      disabled: false,
