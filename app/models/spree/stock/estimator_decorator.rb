@@ -4,7 +4,7 @@ Spree::Stock::Estimator.class_eval do
    # redefined spree/core/app/models/spree/stock/estimator.rb
    # may be i something miss, but looks like should be
    # deleted shipping method if calculator have NOT currency
-   def shipping_methods(package)
+   def shipping_methods(package,something_else_argument)
      shipping_methods = package.shipping_methods
      shipping_methods.delete_if do |ship_method|
        !ship_method.calculator.available?(package) ||
