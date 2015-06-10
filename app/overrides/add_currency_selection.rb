@@ -1,7 +1,7 @@
 # encoding: utf-8
 Deface::Override.new(virtual_path: "spree/shared/_main_nav_bar",
                      name: "currencies_admin_configurations_menu",
-                     insert_bottom: "ul.navbar-nav",
+                     insert_bottom: "li#home-link",
                      disabled: false,
                      text: "
                      <li><%= select_tag 'currency', options_for_select(Spree::Currency.all_currencies, Spree::Currency.current.char_code) %></li>
