@@ -7,14 +7,14 @@ namespace :spree_multi_currency do
   eur_hash = { num_code: '978', char_code: 'EUR', name: 'Euro' }
 
   namespace :currency do
-    desc "Общероссийский классификатор валют (сокращ. ОКВ) - http://ru.wikipedia.org/wiki/Общероссийский_классификатор_валют"
+    desc "Load start currencies"
 
-    task :from_moneylib => :environment do
+    task :load => :environment do
       keys = [:usd, :rub, :eur]
       keys.each do |key|
         x = ::Money::Currency.table[key]
         unless Spree::Currency.exists?(name: key)
-          Spree::Currency.create(char_code: x[:iso_code],name: key,num_code: x[:iso_numeric])
+          Spree::Currency.create(char_code: x[:iso_code],name: key,num_code: x[:iso_numeric],basic:(key==:usd) ? true :false)
         end
       end
     end
