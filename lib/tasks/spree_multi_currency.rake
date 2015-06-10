@@ -60,6 +60,20 @@ namespace :spree_multi_currency do
       
     end
 
+    desc 'rates from Yahoo USD->EUR,RUB'
+    task :yahoo =>:environment do
+      url = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22USDEUR%22,%20%22USDRUB%22%29&env=store://datatables.org/alltableswithkeys'
+      data = Nokogiri::XML.parse(open(url))
+      date_str = data.xpath('query').attr('created').to_s.split('T')[0]
+      date =  date_str.split('-').reverse.join('-')
+      data.xpath('query').xpath('results').children.each do |elem|
+        name = elem.xpath('Name').text.to_s.split('/')[-1]
+        rate = elem.xpath('Rate').text.to_f
+        currency = Spree::Currency.where(char_code: name)[0]
+        Spree::CurrencyConverter.add(currency,date,1/rate,1)
+      end
+    end
+
     desc 'Rates from European Central Bank'
     task :ecb, [:load_currencies] => :environment do |t, args|
       if args.load_currencies
