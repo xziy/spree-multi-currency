@@ -10,10 +10,12 @@ namespace :spree_multi_currency do
     desc "Общероссийский классификатор валют (сокращ. ОКВ) - http://ru.wikipedia.org/wiki/Общероссийский_классификатор_валют"
 
     task :from_moneylib => :environment do
-      ::Money::Currency.table.each do |x|
-        Spree::Currency.create(char_code: x[1][:iso_code],
-                               name: x[0],
-                               num_code: x[1][:iso_numeric])
+      keys = [:usd, :rub, :eur]
+      keys.each do |key|
+        x = ::Money::Currency.table[key]
+        unless Spree::Currency.exists?(name: key)
+          Spree::Currency.create(char_code: x[:iso_code],name: key,num_code: x[:iso_numeric])
+        end
       end
     end
   end
