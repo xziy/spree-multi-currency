@@ -31,7 +31,7 @@ namespace :spree_multi_currency do
       currencies = []
       data = Nokogiri::XML.parse(open(url))
       date_str = data.xpath('//ValCurs').attr('Date').to_s
-      date = Date.strptime(date_str, (date_str =~ /\./ ? '%d.%m.%Y' : '%d/%m/%y'))
+      date =  date_str.split(date_str.include?('/') ? '/' : '.').reverse.join('-')
       data.xpath('//ValCurs/Valute').each do |valute|
         char_code  = valute.xpath('./CharCode').text.to_s
         num_code   = valute.xpath('./NumCode').text.to_s
