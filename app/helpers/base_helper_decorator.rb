@@ -5,4 +5,3 @@ Spree::BaseHelper.class_eval do
     product_or_variant.price_in(Spree::Currency.current).money.to_html
   end
 end
-
