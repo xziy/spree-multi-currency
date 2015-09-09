@@ -34,7 +34,8 @@ Spree::Variant.class_eval do
 
   # FIXME - may be will used in other classes
   def current_char_code
-    Spree::Currency.current.try(:char_code) || Spree::Config[:currency]
+    #Spree::Currency.current.try(:char_code) || Spree::Config[:currency]
+    Spree::Currency.basic.try(:char_code)
   end
 
   # prices stored in spree_prices
@@ -53,13 +54,13 @@ Spree::Variant.class_eval do
   def price=(value)
     value= value.gsub(',','').strip if value && value.class == 'String'
     @price = value
-    
+
     unless new_record?
       cur = current_char_code
       base_price = prices.where(currency: cur).first
       if base_price
         base_price.amount = value
-        
+
       else
         prices.new(amount: value, currency: cur)
       end
