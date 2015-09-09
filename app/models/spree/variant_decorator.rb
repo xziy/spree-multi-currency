@@ -55,7 +55,7 @@ Spree::Variant.class_eval do
     @price = value
 
     unless new_record?
-      cur = Spree::Currency.current.try(:char_code)
+      cur = Spree::Currency.basic.try(:char_code)
       base_price = prices.where(currency: cur).first
       if base_price
         base_price.amount = value
