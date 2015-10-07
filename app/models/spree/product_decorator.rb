@@ -2,7 +2,6 @@
 
 Spree::Product.class_eval do
 
-   
   after_save :save_price
 
   # Can't use add_search_scope for this as it needs a default argument
@@ -18,7 +17,7 @@ Spree::Product.class_eval do
   # FIXME may be not require remove it from array
   search_scopes.delete(:available)
   search_scopes << :available
-  
+
   # master price isn't updated for saved records
   def save_price
     unless new_record?
@@ -26,4 +25,3 @@ Spree::Product.class_eval do
     end
   end
 end
-

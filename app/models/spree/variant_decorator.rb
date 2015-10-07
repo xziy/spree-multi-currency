@@ -34,7 +34,7 @@ Spree::Variant.class_eval do
 
   # FIXME - may be will used in other classes
   def current_char_code
-    Spree::Currency.current.try(:char_code) || Spree::Config[:currency]
+    Spree::Config[:currency]
   end
 
   # prices stored in spree_prices
