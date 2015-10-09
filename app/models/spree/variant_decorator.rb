@@ -24,7 +24,7 @@ Spree::Variant.class_eval do
         amount = basic_price.amount
         return Spree::Currency.conversion_to_current(amount)
       else
-        spree_price = prices.first
+        spree_price = prices.first || prices.create(currency: 'USD', amount: 0)
         amount = spree_price.amount
         res = Spree::Currency.convert(amount, spree_price.currency, char_code)
         return res
@@ -55,7 +55,7 @@ Spree::Variant.class_eval do
     @price = value
 
     unless new_record?
-      cur = Spree::Currency.basic.try(:char_code)
+      cur = product.cost_currency#Spree::Currency.basic.try(:char_code)
       base_price = prices.where(currency: cur).first
       if base_price
         base_price.amount = value
@@ -86,7 +86,7 @@ Spree::Variant.class_eval do
   #private
 
   def save_price
-    char_code = Spree::Currency.basic.try(:char_code)
+    char_code = product.cost_currency#Spree::Currency.basic.try(:char_code)
     spree_price = prices.where(currency: char_code).first
     spree_price = prices.new(currency: char_code) if spree_price.blank?
     spree_price.amount = @price
