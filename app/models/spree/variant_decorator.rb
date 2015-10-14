@@ -12,7 +12,7 @@ Spree::Variant.class_eval do
   # basic or
   # any other
   def get_price
-    char_code = current_char_code
+    char_code = product.cost_currency#current_char_code
     current_price = prices.where(currency: char_code).first
     if current_price && current_price.amount.present?
       amount = current_price.amount
